@@ -1,0 +1,26 @@
+package hello.core;
+
+import hello.core.member.Grade;
+import hello.core.member.Member;
+import hello.core.member.MemberService;
+import org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebApplicationContext;
+import org.springframework.context.ApplicationContext;
+
+public class MemberApp {
+    public static void main(String[] args) {
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        MemberService memberService = new MemberServiceImpl();
+
+        ApplicationContext applicationContext = new AnnotationConfigReactiveWebApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+
+        Member memberA = new Member(1L, "memberA", Grade.VIP);
+        memberService.join(memberA);
+
+        Member findMember = memberService.findMember(1L);
+
+        System.out.println("member "+memberA.getName());
+        System.out.println("findMember "+findMember.getName());
+    }
+}
